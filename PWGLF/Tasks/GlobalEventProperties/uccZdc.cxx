@@ -495,8 +495,8 @@ struct UccZdc {
         }
         
         bool areParsLoaded{false};
-        if (useTimeStamps) { areParsLoaded = LoadMeanSigmaNchParams(foundBC.timestamp()); }
-        else { areParsLoaded = LoadMeanSigmaNchParams(foundBC.runNumber()); }
+        if (useTimeStamps) { areParsLoaded = loadMeanSigmaNchParams(foundBC.timestamp()); }
+        else { areParsLoaded = loadMeanSigmaNchParams(foundBC.runNumber()); }
         if(!areParsLoaded) { return; }
         
         float znA{zdc.amplitudeZNA()};
@@ -629,14 +629,14 @@ struct UccZdc {
 
         // Load Efficiency correction
         bool isEffLoaded{false};
-        if (useTimeStamps) { isEffLoaded = LoadEfficiencyCorrection(foundBC.timestamp()); }
-        else { isEffLoaded = LoadEfficiencyCorrection(foundBC.runNumber()); }
+        if (useTimeStamps) { isEffLoaded = loadEfficiencyCorrection(foundBC.timestamp()); }
+        else { isEffLoaded = loadEfficiencyCorrection(foundBC.runNumber()); }
         if(!isEffLoaded) { return; }
         
         // Get Nch-based selection objects from the CCDB
         bool areParsLoaded{false};
-        if (useTimeStamps) { areParsLoaded = LoadMeanSigmaNchParams(foundBC.timestamp()); }
-        else { areParsLoaded = LoadMeanSigmaNchParams(foundBC.runNumber()); }
+        if (useTimeStamps) { areParsLoaded = loadMeanSigmaNchParams(foundBC.timestamp()); }
+        else { areParsLoaded = loadMeanSigmaNchParams(foundBC.runNumber()); }
         if(!areParsLoaded) { return; }
         
         std::vector<float> pTs;
@@ -749,8 +749,8 @@ struct UccZdc {
                 
                 // Load Efficiency correction
                 bool isEffLoaded{false};
-                if (useTimeStamps) { isEffLoaded = LoadEfficiencyCorrection(foundBC.timestamp()); }
-                else { isEffLoaded = LoadEfficiencyCorrection(foundBC.runNumber()); }
+                if (useTimeStamps) { isEffLoaded = loadEfficiencyCorrection(foundBC.timestamp()); }
+                else { isEffLoaded = loadEfficiencyCorrection(foundBC.runNumber()); }
                 if(!isEffLoaded) { return; }
                 
                 registry.fill(HIST("T0Ccent"), collision.centFT0C());
@@ -979,7 +979,7 @@ struct UccZdc {
     }
     
     template <typename T>
-    bool LoadMeanSigmaNchParams(const T& parameter)
+    bool loadMeanSigmaNchParams(const T& parameter)
     {
         fMeanNch = nullptr;
         fSigmaNch = nullptr;
@@ -1011,7 +1011,7 @@ struct UccZdc {
     }
     
     template <typename T>
-    bool LoadEfficiencyCorrection(const T& parameter)
+    bool loadEfficiencyCorrection(const T& parameter)
     {
         efficiency = nullptr;
         // Get Nch-based selection objects from the CCDB
