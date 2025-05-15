@@ -110,12 +110,12 @@ struct UccZdc {
     
     Configurable<double> nSigmaNchCut{"nSigmaNchCut", 1., "nSigma Nch selection"};
     Configurable<double> minNchSel{"minNchSel", 5., "min Nch Selection"};
-//    Configurable<float> znBasedCut{"znBasedCut", 100, "ZN-based cut"};
+    //    Configurable<float> znBasedCut{"znBasedCut", 100, "ZN-based cut"};
     Configurable<float> zemCut{"zemCut", 1000., "ZEM cut"};
     Configurable<float> tdcCut{"tdcCut", 1., "TDC cut"};
     Configurable<float> minOccCut{"minOccCut", 0, "min Occu cut"};
     Configurable<float> maxOccCut{"maxOccCut", 500, "max Occu cut"};
-//    Configurable<int> minITSnCls{"minITSnCls", 5, "min ITSnCls"};
+    //    Configurable<int> minITSnCls{"minITSnCls", 5, "min ITSnCls"};
     
     Configurable<int> itsRequirement{"itsRequirement", TrackSelection::GlobalTrackRun3ITSMatching::Run3ITSall7Layers, "0: Global Tracks, 2: Hits in the 7 ITS layers"};
     Configurable<bool> requireITS{"requireITS", true, "Additional cut on the ITS requirement"};
@@ -511,7 +511,7 @@ struct UccZdc {
         float tZEM1{zdc.timeZEM1()};
         float tZEM2{zdc.timeZEM2()};
         float sumZNs{znA + znC};
-           
+        
         int itsTracks = 0, glbTracks = 0;
         float et = 0., meanpt = 0.;
         for (const auto& track : tracks) {
@@ -582,7 +582,7 @@ struct UccZdc {
     void processZdcCollAss(o2::aod::ColEvSels::iterator const& collision, o2::aod::BCsRun3 const& /*bcs*/, aod::Zdcs const& /*zdcs*/, aod::FV0As const& /*fv0as*/, aod::FT0s const& /*ft0s*/, TheFilteredTracks const& tracks)
     {
         const double ePerNucleon{2.68};
-
+        
         if (!isEventSelected(collision)) { return; }
         
         const auto& foundBC = collision.foundBC_as<o2::aod::BCsRun3>();
@@ -626,7 +626,7 @@ struct UccZdc {
             if (sumZEMs < zemCut) { return; }
             registry.fill(HIST("hEventCounter"), EvCutLabel::Zem);
         }
-
+        
         // Load Efficiency correction
         bool isEffLoaded{false};
         if (useTimeStamps) { isEffLoaded = loadEfficiencyCorrection(foundBC.timestamp()); }
@@ -666,7 +666,7 @@ struct UccZdc {
         const double sigmaNch{fSigmaNch->Eval(normT0M)};
         const double nSigmaSelection{nSigmaNchCut * sigmaNch};
         const double diffMeanNch{meanNch - glbTracks};
-
+        
         if (!(std::abs(diffMeanNch) < nSigmaSelection)) {
             registry.fill(HIST("RejectedEvtsVsFT0M"), normT0M);
             registry.fill(HIST("RejectedEvtsVsNch"), glbTracks);
@@ -737,7 +737,7 @@ struct UccZdc {
             for (const auto& collision : collisions) {
                 
                 const auto& foundBC = collision.foundBC_as<o2::aod::BCsRun3>();
-                                
+                
                 // Event selection
                 if (!isEventSelected(collision)) {
                     continue;
@@ -1000,12 +1000,12 @@ struct UccZdc {
             LOGF(fatal, "Could not load fSigmaNch from %s", paTHsigmaNch.value.c_str());
             return false;
         }
-//        if (fMeanNch) {
-//            LOGF(info, "Loaded fMeanNch from %s (%p)", paTHmeanNch.value.c_str(), (void*)fMeanNch);
-//        }
-//        if (fSigmaNch) {
-//            LOGF(info, "Loaded fSigmaNch from %s (%p)", paTHsigmaNch.value.c_str(), (void*)fSigmaNch);
-//        }
+        //        if (fMeanNch) {
+        //            LOGF(info, "Loaded fMeanNch from %s (%p)", paTHmeanNch.value.c_str(), (void*)fMeanNch);
+        //        }
+        //        if (fSigmaNch) {
+        //            LOGF(info, "Loaded fSigmaNch from %s (%p)", paTHsigmaNch.value.c_str(), (void*)fSigmaNch);
+        //        }
         if(!fMeanNch || !fSigmaNch) { return false; }
         else{ return true; }
     }
@@ -1024,9 +1024,9 @@ struct UccZdc {
             LOGF(fatal, "Could not load efficiency from %s", paTH.value.c_str());
             return false;
         }
-//        if (efficiency) {
-//            LOGF(info, "Loaded efficiency from %s (%p)", paTH.value.c_str(), (void*)efficiency);
-//        }
+        //        if (efficiency) {
+        //            LOGF(info, "Loaded efficiency from %s (%p)", paTH.value.c_str(), (void*)efficiency);
+        //        }
         if(!efficiency) { return false; }
         else{ return true; }
     }
